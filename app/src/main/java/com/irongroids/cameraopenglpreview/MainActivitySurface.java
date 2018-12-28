@@ -43,6 +43,8 @@ public class MainActivitySurface extends AppCompatActivity {
         holder = sv.getHolder();
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
+
+
         holderCallback = new HolderCallback();
         holder.addCallback(holderCallback);
     }
@@ -67,6 +69,7 @@ public class MainActivitySurface extends AppCompatActivity {
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
             try {
+
                 camera.setPreviewDisplay(holder);
                 camera.startPreview();
             } catch (IOException e) {
@@ -91,7 +94,6 @@ public class MainActivitySurface extends AppCompatActivity {
         public void surfaceDestroyed(SurfaceHolder holder) {
 
         }
-
     }
 
     void setPreviewSize(boolean fullScreen) {
