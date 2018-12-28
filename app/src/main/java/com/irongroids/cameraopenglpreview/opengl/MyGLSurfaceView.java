@@ -1,9 +1,7 @@
 package com.irongroids.cameraopenglpreview.opengl;
 
-import android.content.Context;
 import android.opengl.GLSurfaceView;
 
-import com.irongroids.cameraopenglpreview.MainActivity;
 import com.irongroids.cameraopenglpreview.MainActivityFragment;
 
 public class MyGLSurfaceView extends GLSurfaceView

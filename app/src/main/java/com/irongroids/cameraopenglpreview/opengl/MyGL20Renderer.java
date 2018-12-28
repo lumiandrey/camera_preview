@@ -1,12 +1,10 @@
 package com.irongroids.cameraopenglpreview.opengl;
 
 import android.graphics.SurfaceTexture;
-import android.opengl.EGLConfig;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
-import com.irongroids.cameraopenglpreview.MainActivity;
 import com.irongroids.cameraopenglpreview.MainActivityFragment;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -35,8 +33,8 @@ public class MyGL20Renderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl10, javax.microedition.khronos.egl.EGLConfig eglConfig) {
-        mDirectVideo = new DirectVideo(texture);
         texture = createTexture();
+        mDirectVideo = new DirectVideo(texture);
         GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
         delegate.startCamera(texture);
     }

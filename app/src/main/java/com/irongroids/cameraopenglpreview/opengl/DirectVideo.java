@@ -10,22 +10,23 @@ import java.nio.ShortBuffer;
 
 public class DirectVideo {
     private final String vertexShaderCode =
-            "#extension GL_OES_EGL_image_external : require\n"+
-                    "attribute vec4 position;" +
-                    "attribute vec4 inputTextureCoordinate;" +
+            "attribute vec4 position;" +
+                    "attribute vec2 inputTextureCoordinate;" +
                     "varying vec2 textureCoordinate;" +
                     "void main()" +
                     "{"+
                     "gl_Position = position;"+
-                    "textureCoordinate = inputTextureCoordinate.xy;" +
+                    "textureCoordinate = inputTextureCoordinate;" +
                     "}";
+
 
     private final String fragmentShaderCode =
             "#extension GL_OES_EGL_image_external : require\n"+
                     "precision mediump float;" +
-                    "uniform vec4 vColor;" +
+                    "varying vec2 textureCoordinate;                            \n" +
+                    "uniform samplerExternalOES s_texture;               \n" +
                     "void main() {" +
-                    "  gl_FragColor = vColor;" +
+                    "  gl_FragColor = texture2D( s_texture, textureCoordinate );\n" +
                     "}";
 
     private FloatBuffer vertexBuffer, textureVerticesBuffer;
@@ -45,7 +46,7 @@ public class DirectVideo {
             1.0f,  1.0f
     };
 
-    private short drawOrder[] = { 0, 1, 2, 0, 2, 3 }; // order to draw vertices
+        private short drawOrder[] = { 0, 1, 2, 0, 2, 3 }; // order to draw vertices
 
     static float textureVertices[] = { // in counterclockwise order:
             1.0f,  1.0f,
@@ -87,10 +88,7 @@ public class DirectVideo {
         GLES20.glAttachShader(mProgram, vertexShader);   // add the vertex shader to program
         GLES20.glAttachShader(mProgram, fragmentShader); // add the fragment shader to program
         GLES20.glLinkProgram(mProgram);
-    }
 
-    public void draw()
-    {
         GLES20.glUseProgram(mProgram);
 
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
@@ -104,7 +102,7 @@ public class DirectVideo {
         GLES20.glEnableVertexAttribArray(mTextureCoordHandle);
         GLES20.glVertexAttribPointer(mTextureCoordHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false,vertexStride, textureVerticesBuffer);
 
-        mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
+        mColorHandle = GLES20.glGetAttribLocation(mProgram, "s_texture");
 
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawOrder.length,
                 GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
@@ -112,5 +110,15 @@ public class DirectVideo {
         // Disable vertex array
         GLES20.glDisableVertexAttribArray(mPositionHandle);
         GLES20.glDisableVertexAttribArray(mTextureCoordHandle);
+    }
+
+    public void draw()
+    {
+
+        GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, texture);
+        GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawOrder.length,
+                GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
+
+
     }
 }

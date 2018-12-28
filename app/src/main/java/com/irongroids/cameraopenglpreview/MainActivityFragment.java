@@ -51,7 +51,7 @@ public class MainActivityFragment extends Fragment implements SurfaceTexture.OnF
         }
         catch (IOException ioe)
         {
-            Log.w("MainActivity","CAM LAUNCH FAILED");
+            Log.w("MainActivitySurface","CAM LAUNCH FAILED");
         }
     }
 
