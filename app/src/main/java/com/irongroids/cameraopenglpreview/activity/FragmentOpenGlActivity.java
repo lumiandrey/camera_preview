@@ -1,10 +1,10 @@
 package com.irongroids.cameraopenglpreview.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.irongroids.cameraopenglpreview.R;
-import com.irongroids.cameraopenglpreview.fragment.OpenGlCameraPreviewFragment;
+import com.irongroids.cameraopenglpreview.fragment.GoogleExamplePreviewCameraOpenglFragment;
 
 public class FragmentOpenGlActivity extends AppCompatActivity {
 
@@ -15,7 +15,7 @@ public class FragmentOpenGlActivity extends AppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.container, OpenGlCameraPreviewFragment.newInstance())
+                .replace(R.id.container, GoogleExamplePreviewCameraOpenglFragment.newInstance())
                 .commit();
 
     }
