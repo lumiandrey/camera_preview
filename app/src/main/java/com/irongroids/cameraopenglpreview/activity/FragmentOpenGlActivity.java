@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.irongroids.cameraopenglpreview.R;
+import com.irongroids.cameraopenglpreview.fragment.ExampleOpenGlFragment;
 import com.irongroids.cameraopenglpreview.fragment.GoogleExamplePreviewCameraOpenglFragment;
 
 public class FragmentOpenGlActivity extends AppCompatActivity {
