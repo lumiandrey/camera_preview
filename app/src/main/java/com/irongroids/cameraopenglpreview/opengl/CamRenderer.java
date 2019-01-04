@@ -18,8 +18,10 @@ import android.opengl.Matrix;
 import android.util.Log;
 
 public class CamRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFrameAvailableListener {
+
     private float[] mMVPMatrix = new float[16];
     private float[] mProjMatrix = new float[16];
+
     private float[] mMMatrix = new float[16];
     private float[] mVMatrix = new float[16];
     private float[] mSTMatrix = new float[16];
@@ -116,7 +118,7 @@ public class CamRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFra
         checkGlError("glEnableVertexAttribArray maTextureHandle");
 
         Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, mMMatrix, 0);
-        Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
+        Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mVMatrix, 0);
 
         GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
         GLES20.glUniformMatrix4fv(muSTMatrixHandle, 1, false, mSTMatrix, 0);
@@ -129,12 +131,15 @@ public class CamRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFra
     public void onSurfaceChanged(GL10 glUnused, int width, int height) {
         // Ignore the passed-in GL10 interface, and use the GLES20
         // class's static methods instead.
+
         GLES20.glViewport(0, 0, width, height);
+
         mRatio = (float) width / height;
         Matrix.frustumM(mProjMatrix, 0, -mRatio, mRatio, -1, 1, 3, 7);
     }
 
     public void onSurfaceCreated(GL10 glUnused, EGLConfig config) {
+
         // Ignore the passed-in GL10 interface, and use the GLES20
         // class's static methods instead.
 
@@ -227,6 +232,7 @@ public class CamRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFra
     }
 
     synchronized public void onFrameAvailable(SurfaceTexture surface) {
+
         /* For simplicity, SurfaceTexture calls here when it has new
          * data available.  Call may come in from some random thread,
          * so let's be safe and use synchronize. No OpenGL calls can be done here.
@@ -248,7 +254,6 @@ public class CamRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFra
             Matrix.setIdentityM(mMMatrix, 0);
             Matrix.translateM(mMMatrix, 0, mPos[0], mPos[1], mPos[2]);
         }
-
     }
 
     private int loadShader(int shaderType, String source) {
@@ -270,9 +275,11 @@ public class CamRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFra
 
     private int createProgram(String vertexSource, String fragmentSource) {
         int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vertexSource);
+
         if (vertexShader == 0) {
             return 0;
         }
+
         int pixelShader = loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentSource);
         if (pixelShader == 0) {
             return 0;
@@ -309,6 +316,7 @@ public class CamRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFra
     private static final int TRIANGLE_VERTICES_DATA_STRIDE_BYTES = 5 * FLOAT_SIZE_BYTES;
     private static final int TRIANGLE_VERTICES_DATA_POS_OFFSET = 0;
     private static final int TRIANGLE_VERTICES_DATA_UV_OFFSET = 3;
+
     private final float[] mTriangleVerticesData = {
             // X, Y, Z, U, V
             -1.0f, -1.0f, 0, 0.f, 0.f,
@@ -316,6 +324,14 @@ public class CamRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFra
             -1.0f, 1.0f, 0, 0.f, 1.f,
             1.0f, 1.0f, 0, 1.f, 1.f,
     };
+
+    /*private final float[] mTriangleVerticesData = {
+            // X, Y, Z, U, V
+            1.0f, -1.0f, 0, 1.f, 0.f,
+            1.0f, 1.0f, 0, 1.f, 1.f,
+            -1.0f, -1.0f, 0, 0.f, 0.f,
+            -1.0f, 1.0f, 0, 0.f, 1.f,
+    };*/
 
     private FloatBuffer mTriangleVertices;
 
