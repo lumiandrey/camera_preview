@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.irongroids.cameraopenglpreview.R;
 import com.irongroids.cameraopenglpreview.fragment.ExampleOpenGlFragment;
 import com.irongroids.cameraopenglpreview.fragment.GoogleExamplePreviewCameraOpenglFragment;
+import com.irongroids.cameraopenglpreview.fragment.OpenGlRecorderFragment;
 
 public class FragmentOpenGlActivity extends AppCompatActivity {
 
@@ -16,7 +17,7 @@ public class FragmentOpenGlActivity extends AppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.container, GoogleExamplePreviewCameraOpenglFragment.newInstance())
+                .replace(R.id.container, OpenGlRecorderFragment.newInstance())
                 .commit();
 
     }
